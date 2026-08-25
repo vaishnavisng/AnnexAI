@@ -105,7 +105,7 @@ GEMINI_MODEL_NAME = os.getenv("GEMINI_MODEL_NAME", GEMINI_DEFAULT_MODEL)
 if GEMINI_MODEL_NAME not in GEMINI_ALLOWED_MODELS:
     GEMINI_MODEL_NAME = GEMINI_DEFAULT_MODEL
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-    
+
 # Comma-separated browser origins allowed to call the API.
 _cors_origins = os.getenv(
     "CORS_ORIGINS",

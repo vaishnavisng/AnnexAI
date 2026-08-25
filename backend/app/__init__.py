@@ -4,7 +4,6 @@ import secrets
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.config.settings import MAX_CONTENT_LENGTH
 from app.config.settings import CORS_ORIGINS, MAX_CONTENT_LENGTH
 
 
