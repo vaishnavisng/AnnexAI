@@ -1,4 +1,4 @@
-# CognifyAI
+# AnnexAI
 
 AI-powered lecture study platform with RAG-based Q&A, quiz generation, flashcards, and spaced repetition.
 
@@ -22,8 +22,8 @@ You'll need a free Gemini API key: https://aistudio.google.com/app/apikey
 ### macOS / Linux
 
 ```bash
-git clone https://github.com/<your-username>/CognifyAI.git
-cd CognifyAI
+git clone https://github.com/<your-username>/AnnexAI.git
+cd AnnexAI
 ./install.sh        # one-time setup; prompts for GEMINI_API_KEY
 ./start.sh          # boots backend + frontend, opens http://localhost:3000
 ```
@@ -40,8 +40,8 @@ Press `Ctrl+C` to stop. Re-running `./start.sh` later is instant — nothing is 
 In PowerShell or Command Prompt (or just **double-click** `install.bat` in Explorer):
 
 ```powershell
-git clone https://github.com/<your-username>/CognifyAI.git
-cd CognifyAI
+git clone https://github.com/<your-username>/AnnexAI.git
+cd AnnexAI
 .\install.bat        # one-time setup; prompts for GEMINI_API_KEY
 .\start.bat          # boots backend + frontend, opens http://localhost:3000
 ```
@@ -100,7 +100,7 @@ Examples:
 ## Architecture
 
 ```
-CognifyAI/
+AnnexAI/
 ├── backend/                 # Python FastAPI — AI/core processing service
 │   ├── app/
 │   │   ├── api/             # REST API routes

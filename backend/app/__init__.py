@@ -8,7 +8,7 @@ from app.config.settings import CORS_ORIGINS, MAX_CONTENT_LENGTH
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="CognifyAI API", version="1.0.0")
+    app = FastAPI(title="AnnexAI API", version="1.0.0")
 
     app.state.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
     app.state.max_content_length = MAX_CONTENT_LENGTH

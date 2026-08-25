@@ -1,5 +1,5 @@
 """
-CognifyAI - cross-platform installer / first-time setup.
+AnnexAI - cross-platform installer / first-time setup.
 
 Works on macOS, Linux, and Windows. Run once after cloning:
 
@@ -439,7 +439,7 @@ def step_setup_env(prompt_for_key: bool) -> None:
 
 def do_clean() -> int:
     """Remove venv, node_modules, and the install cache."""
-    banner("CognifyAI clean")
+    banner("AnnexAI clean")
     targets = [
         VENV_DIR,
         os.path.join(BACKEND_DIR, "venv"),
@@ -475,7 +475,7 @@ def do_clean() -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="CognifyAI installer (cross-platform).",
+        description="AnnexAI installer (cross-platform).",
     )
     parser.add_argument(
         "--force", action="store_true",
@@ -498,7 +498,7 @@ def main() -> int:
     if args.clean:
         return do_clean()
 
-    banner("CognifyAI installer")
+    banner("AnnexAI installer")
 
     if not step_check_prereqs(auto_tools=args.auto_tools):
         return 1

@@ -1,5 +1,5 @@
 @echo off
-rem CognifyAI - one-command launcher for Windows.
+rem AnnexAI - one-command launcher for Windows.
 rem
 rem Usage:
 rem   start.bat                   backend + frontend, opens browser

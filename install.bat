@@ -1,5 +1,5 @@
 @echo off
-rem CognifyAI - one-command installer for Windows.
+rem AnnexAI - one-command installer for Windows.
 rem
 rem Usage:
 rem   install.bat                 install everything (skips work that's done)

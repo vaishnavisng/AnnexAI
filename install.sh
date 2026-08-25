@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# CognifyAI - one-command installer for macOS / Linux.
+# AnnexAI - one-command installer for macOS / Linux.
 #
 # Usage:
 #   ./install.sh                 # install everything (skips work that's done)

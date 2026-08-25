@@ -54,7 +54,7 @@ function makeJumpUrl(srcUrl: string, timestamp: number): string {
 }
 
 function storageKey(lectureId: string): string {
-  return `cognify_chat_${lectureId || "default"}`;
+  return `annexai_chat_${lectureId || "default"}`;
 }
 
 function loadHistory(lectureId: string): Turn[] {
@@ -649,7 +649,7 @@ function QAContent() {
 
       <main className="chat-shell">
         <header className="chat-header">
-          <div className="chat-title">CognifyAI</div>
+          <div className="chat-title">AnnexAI</div>
           <div className="chat-meta">
             {lectureId && (
               <>

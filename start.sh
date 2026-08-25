@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# CognifyAI - one-command launcher for macOS / Linux.
+# AnnexAI - one-command launcher for macOS / Linux.
 #
 # Usage:
 #   ./start.sh                  # backend + frontend, opens browser

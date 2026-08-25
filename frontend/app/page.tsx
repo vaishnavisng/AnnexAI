@@ -120,7 +120,7 @@ export default function Home() {
       <PageTransition />
 
       <main className="landing-wrap">
-        <h1 className="brand-title">CognifyAI</h1>
+        <h1 className="brand-title">AnnexAI</h1>
 
         <div className="feature-strip">
           <Link className="pill" href="/library">

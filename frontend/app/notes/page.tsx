@@ -135,7 +135,7 @@ function NotesContent() {
 
       <main ref={shellRef} className="chat-shell notes-shell docs-shell">
         <header className="chat-header">
-          <div className="chat-title">{data?.title ?? "CognifyAI"}</div>
+          <div className="chat-title">{data?.title ?? "AnnexAI"}</div>
           <div className="chat-meta">
             <Link className="pill" href="/library">Library</Link>
             <Link className="pill" href={`/flashcards?${q(lectureId)}`}>Flashcards</Link>

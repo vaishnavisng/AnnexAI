@@ -1,5 +1,5 @@
 """
-CognifyAI - single-command launcher for backend + frontend.
+AnnexAI - single-command launcher for backend + frontend.
 
 Cross-platform: works on macOS, Linux, and Windows.
 
@@ -305,7 +305,7 @@ def _wait_then_open_browser(frontend_port: int, backend_port: int, max_wait: flo
 # ----------------------------------------------------------------------
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Start CognifyAI servers")
+    parser = argparse.ArgumentParser(description="Start AnnexAI servers")
     parser.add_argument("--backend-only", action="store_true", help="Start only the FastAPI backend")
     parser.add_argument("--frontend-only", action="store_true", help="Start only the Next.js frontend")
     parser.add_argument("--no-browser", action="store_true", help="Don't auto-open the browser")
