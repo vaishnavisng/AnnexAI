@@ -137,6 +137,11 @@ OCR_MIN_TEXT_CHARS = 24
 OCR_MAX_WORDS_PER_FRAME = 80
 OCR_MIN_CONFIDENCE = 45.0
 OCR_WORKERS = 4
+DISABLE_YOUTUBE_OCR = os.getenv("DISABLE_YOUTUBE_OCR", "false").lower() in {
+    "1",
+    "true",
+    "yes",
+}
 
 # Speechmatics settings
 SPEECHMATICS_API_KEY = os.getenv("SPEECHMATICS_API_KEY", "")

@@ -17,7 +17,23 @@ export interface LectureProcessResult {
 }
 
 export async function processLecture(formData: FormData): Promise<LectureProcessResult> {
-  const res = await fetch(`${API_BASE}/lectures/process`, { method: "POST", body: formData });
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 110_000);
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/lectures/process`, {
+      method: "POST",
+      body: formData,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error("Lecture processing timed out. Try a shorter video or retry.");
+    }
+    throw new Error("Unable to reach the lecture service. Check the backend deployment.");
+  } finally {
+    window.clearTimeout(timeout);
+  }
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data.error || `Processing failed with status ${res.status}`);

@@ -33,6 +33,7 @@ async def process_lecture(
     youtube_url: Optional[str] = Form(None),
     video_file: Optional[UploadFile] = File(None),
 ):
+    from app.config.settings import DISABLE_YOUTUBE_OCR
     from app.core.indexing import build_index
     from app.services.frame_ocr_utils import extract_frame_ocr_segments
     from app.services.speechmatics_transcribe import transcribe_audio_speechmatics
@@ -121,7 +122,11 @@ async def process_lecture(
                 }
 
             with ThreadPoolExecutor(max_workers=2) as executor:
-                frame_future = executor.submit(download_youtube_video_for_frames, youtube_url, lecture_id)
+                frame_future = None
+                if not DISABLE_YOUTUBE_OCR:
+                    frame_future = executor.submit(
+                        download_youtube_video_for_frames, youtube_url, lecture_id
+                    )
                 transcript_future = executor.submit(fetch_youtube_transcript, video_id)
 
                 try:
@@ -134,11 +139,14 @@ async def process_lecture(
                     transcript_source = "speechmatics-youtube-fallback"
                     detected_language = "auto"
 
-                try:
-                    video_path = frame_future.result()
-                except Exception as exc:
-                    video_path = ""
-                    ocr_error = f"Frame analysis skipped: {exc}"
+                if frame_future is not None:
+                    try:
+                        video_path = frame_future.result()
+                    except Exception as exc:
+                        video_path = ""
+                        ocr_error = f"Frame analysis skipped: {exc}"
+                else:
+                    ocr_error = "Frame analysis disabled by deployment configuration."
 
         if video_path:
             try:
