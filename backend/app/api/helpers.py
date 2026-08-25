@@ -1,7 +1,7 @@
 import json
 import os
 
-from app.config.settings import INDEX_DIR, TRANSCRIPT_DIR
+from app.config.settings import INDEX_DIR, LEXICAL_ONLY, TRANSCRIPT_DIR
 
 
 def chunks_path(lecture_id: str) -> str:
@@ -29,6 +29,9 @@ def reuse_processed_lecture(lecture_id: str) -> bool:
         return False
 
     emb_path, seg_path = index_paths(lecture_id)
+    if LEXICAL_ONLY:
+        return True
+
     if not (os.path.exists(emb_path) and os.path.exists(seg_path)):
         from app.core.indexing import build_index
         build_index(lecture_id)

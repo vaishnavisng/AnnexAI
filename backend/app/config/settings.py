@@ -142,6 +142,11 @@ DISABLE_YOUTUBE_OCR = os.getenv("DISABLE_YOUTUBE_OCR", "false").lower() in {
     "true",
     "yes",
 }
+LEXICAL_ONLY = os.getenv("LEXICAL_ONLY", "false").lower() in {
+    "1",
+    "true",
+    "yes",
+}
 
 # Speechmatics settings
 SPEECHMATICS_API_KEY = os.getenv("SPEECHMATICS_API_KEY", "")

@@ -1,20 +1,24 @@
 import json
 import logging
 import os
-from typing import List, Optional, Tuple
+from typing import TYPE_CHECKING, List, Optional, Tuple
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
 
-from app.config.settings import TRANSCRIPT_DIR, INDEX_DIR, EMBEDDING_MODEL_NAME
+from app.config.settings import EMBEDDING_MODEL_NAME, INDEX_DIR, LEXICAL_ONLY, TRANSCRIPT_DIR
+
+if TYPE_CHECKING:
+    from sentence_transformers import SentenceTransformer
 
 _logger = logging.getLogger(__name__)
-_embedder: Optional[SentenceTransformer] = None
+_embedder: Optional["SentenceTransformer"] = None
 
 
-def get_embedder() -> SentenceTransformer:
+def get_embedder() -> "SentenceTransformer":
     global _embedder
     if _embedder is None:
+        from sentence_transformers import SentenceTransformer
+
         _embedder = SentenceTransformer(EMBEDDING_MODEL_NAME)
     return _embedder
 
@@ -34,6 +38,13 @@ def build_index(lecture_id: str) -> Tuple[str, str]:
 
     with open(chunks_path, "r", encoding="utf-8") as f:
         segments = json.load(f)
+
+    if LEXICAL_ONLY:
+        _logger.info("Lexical-only mode enabled; skipping embeddings for %s.", lecture_id)
+        return (
+            os.path.join(INDEX_DIR, f"{lecture_id}_embeddings.npy"),
+            os.path.join(INDEX_DIR, f"{lecture_id}_segments.json"),
+        )
 
     texts: List[str] = [s["text"] for s in segments]
 
@@ -66,6 +77,17 @@ def load_index_and_segments(lecture_id: str):
     """Load embedding matrix and segments list for a lecture."""
     emb_path = os.path.join(INDEX_DIR, f"{lecture_id}_embeddings.npy")
     seg_path = os.path.join(INDEX_DIR, f"{lecture_id}_segments.json")
+
+    if LEXICAL_ONLY:
+        chunks_path = os.path.join(TRANSCRIPT_DIR, f"{lecture_id}_chunks.json")
+        if not os.path.exists(chunks_path):
+            raise FileNotFoundError(
+                f"Transcript chunks missing for lecture '{lecture_id}'. "
+                "You need to process this lecture first."
+            )
+        with open(chunks_path, "r", encoding="utf-8") as f:
+            segments = json.load(f)
+        return np.empty((len(segments), 0), dtype="float32"), segments
 
     if not (os.path.exists(emb_path) and os.path.exists(seg_path)):
         raise FileNotFoundError(

@@ -7,6 +7,7 @@ import numpy as np
 
 from app.config.settings import (
     HYBRID_ALPHA,
+    LEXICAL_ONLY,
     RETRIEVAL_CANDIDATES,
     RETRIEVAL_TOPK,
     NEIGHBOR_WINDOW,
@@ -60,7 +61,7 @@ class LectureQA:
     def __init__(self, lecture_id: str):
         self.lecture_id = lecture_id
         self.emb, self.segments, self.bm25 = _load_lecture_resources(lecture_id)
-        self.embedder = get_embedder()
+        self.embedder = None if LEXICAL_ONLY else get_embedder()
 
     # -------- Retrieval --------
 
@@ -69,21 +70,23 @@ class LectureQA:
         Hybrid score = HYBRID_ALPHA * cosine + (1 - HYBRID_ALPHA) * normalized BM25.
         Returns (indices, hybrid_scores, cos_scores, bm25_scores).
         """
-        # Semantic
-        qv = self.embedder.encode([question], convert_to_numpy=True)[0].astype("float32")
-        qv = qv / (np.linalg.norm(qv) + 1e-10)
-        cos_scores = self.emb @ qv
-        cos_n = _normalize(cos_scores)
-
         # Lexical
         if self.bm25 is not None:
             bm_scores = np.asarray(self.bm25.get_scores(_tok(question)), dtype=np.float32)
             bm_n = _normalize(bm_scores)
         else:
-            bm_scores = np.zeros_like(cos_scores)
-            bm_n = np.zeros_like(cos_scores)
+            bm_scores = np.zeros(len(self.segments), dtype=np.float32)
+            bm_n = np.zeros_like(bm_scores)
 
-        hybrid = HYBRID_ALPHA * cos_n + (1.0 - HYBRID_ALPHA) * bm_n
+        if LEXICAL_ONLY:
+            hybrid = bm_n
+            cos_scores = np.zeros_like(bm_scores)
+        else:
+            qv = self.embedder.encode([question], convert_to_numpy=True)[0].astype("float32")
+            qv = qv / (np.linalg.norm(qv) + 1e-10)
+            cos_scores = self.emb @ qv
+            cos_n = _normalize(cos_scores)
+            hybrid = HYBRID_ALPHA * cos_n + (1.0 - HYBRID_ALPHA) * bm_n
 
         k = min(pool_k, hybrid.shape[0])
         idx = np.argpartition(-hybrid, k - 1)[:k]
