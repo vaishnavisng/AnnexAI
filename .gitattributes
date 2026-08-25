@@ -1,0 +1,46 @@
+# Auto-detect text files; ensure consistent LF line endings on checkout
+# regardless of OS. Prevents Windows checkouts from corrupting shell scripts,
+# Python files, and JSON.
+
+* text=auto eol=lf
+
+# Source code
+*.py       text eol=lf
+*.ts       text eol=lf
+*.tsx      text eol=lf
+*.js       text eol=lf
+*.jsx      text eol=lf
+*.json     text eol=lf
+*.css      text eol=lf
+*.html     text eol=lf
+*.md       text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+*.toml     text eol=lf
+
+# Shell scripts MUST be LF or they break on Linux/macOS
+*.sh       text eol=lf
+Makefile   text eol=lf
+
+# Windows-only batch files keep CRLF
+*.bat      text eol=crlf
+*.cmd      text eol=crlf
+
+# Binary assets — never touch
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.gif      binary
+*.webp     binary
+*.ico      binary
+*.mp4      binary
+*.mov      binary
+*.webm     binary
+*.mp3      binary
+*.wav      binary
+*.pdf      binary
+*.zip      binary
+*.gz       binary
+*.npy      binary
+*.faiss    binary
+*.pkl      binary
