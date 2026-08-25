@@ -105,6 +105,13 @@ GEMINI_MODEL_NAME = os.getenv("GEMINI_MODEL_NAME", GEMINI_DEFAULT_MODEL)
 if GEMINI_MODEL_NAME not in GEMINI_ALLOWED_MODELS:
     GEMINI_MODEL_NAME = GEMINI_DEFAULT_MODEL
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+    
+# Comma-separated browser origins allowed to call the API.
+_cors_origins = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:3000,http://127.0.0.1:3000",
+)
+CORS_ORIGINS = tuple(origin.strip() for origin in _cors_origins.split(",") if origin.strip())
 
 # Approx words per merged caption chunk
 MAX_CHUNK_WORDS = 120

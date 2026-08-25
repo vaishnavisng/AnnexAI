@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config.settings import MAX_CONTENT_LENGTH
+from app.config.settings import CORS_ORIGINS, MAX_CONTENT_LENGTH
 
 
 def create_app() -> FastAPI:
@@ -15,7 +16,7 @@ def create_app() -> FastAPI:
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+        allow_origins=list(CORS_ORIGINS),
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
